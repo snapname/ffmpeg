@@ -1,7 +1,7 @@
 #ffmpeg 切片头 片尾
 
 #!/bin/sh
-#我这里要切除的开头和结尾
+#要切除的开头和结尾 时间秒
 beg=5
 end=9
 path="/var/www/html/uploads/videos/"
@@ -25,7 +25,7 @@ do
 	sum=`expr $num1 + $num2 + $num3`  
     echo $sum
     #总时长减去开头和结尾就是截取后的视频时长,并且这里不需要再转回 hour:min:sec 的格式，直接使用结果即可
-    newtime=`expr $sum - $end`
+    newtime=`expr $sum - $beg - $end`
     echo $newtime
     #ffmpeg -ss 00:00:05 -i /var/www/html/$filename -t $newtime -c:v libx264 -movflags faststart -r 25 -b:v 1200k -s 1920x1080  /var/www/html/uploads/$filename 
     ffmpeg -i /var/www/html/uploads/videos/$filename -t $newtime -c:v copy -c:a copy  /var/www/html/uploads/videos/$filename 
